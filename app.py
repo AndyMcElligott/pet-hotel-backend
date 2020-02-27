@@ -1,6 +1,13 @@
 from flask import Flask
+from flask import request
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route('/',  methods=['GET', 'POST', 'PUT'])
 def hello_world():
-    return 'Hello, World!'
+  print(request)
+  print('Hello World!')
+  return 'Hello, World!'
+
+
+
