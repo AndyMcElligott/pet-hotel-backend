@@ -7,7 +7,7 @@ app = Flask(__name__)
 conn = psycopg2.connect(database="pet-hotel", host = "localhost", port = "5432")
 
 
-@app.route('/',  methods=['GET', 'POST', 'PUT'])
+@app.route('/api/history',  methods=['GET', 'POST', 'PUT'])
 def hello_world():
 
   cur = conn.cursor()
@@ -15,8 +15,9 @@ def hello_world():
   rows = cur.fetchall()
 
   print(rows)
+  print([desc[0] for desc in cur.description])
+  # print(cur.description)
   cur.close()
-  conn.close()
-  return 'test'
+  return jsonify(rows)
 
 
