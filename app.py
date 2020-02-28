@@ -36,14 +36,29 @@ def sqlSelect(query):
     return rowsWithKeys
 
 
-@app.route('/api/history',  methods=['GET', 'POST', 'PUT'])
+def sqlInsert(queryText, values):
+    cur = conn.cursor()
+    cur.execute(queryText, values)
+    conn.commit()
+    cur.close()
+
+
+@app.route('/api/history',  methods=['GET', 'POST'])
 def getHistory():
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+        queryText = """INSERT INTO "history" ("owner", "pet", "breed", "color", "checked_in")
+                    VALUES (%s, %s, %s, %s, TRUE)"""
+        sqlInsert(queryText, (data['owner'], data['name'], data['breed'], data['color']))
+        return 'worked'
 
-    arrayOfHistory = sqlSelect('SELECT * FROM "history"')
-    return jsonify(arrayOfHistory)
+    elif request.method == 'GET':
+        arrayOfHistory = sqlSelect('SELECT * FROM "history"')
+        return jsonify(arrayOfHistory)
 
 
-@app.route('/api/owners',  methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/api/owners',  methods=['GET', 'POST'])
 def getOwners():
 
     arrayOfOwners = sqlSelect('SELECT * FROM "owners"')

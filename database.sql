@@ -13,7 +13,7 @@ CREATE TABLE "history" (
 	"pet" varchar(255) NOT NULL,
 	"breed" varchar(255) NOT NULL,
 	"color" varchar(255) NOT NULL,
-	"checked-in" boolean NOT NULL);
+	"checked-in" boolean DEFAULT TRUE);
 
 INSERT INTO "history" ("owner", "pet", "breed", "color", "checked-in")
 VALUES('1', 'Tina', 'supertuna', 'yellow', 'true'),
