@@ -60,6 +60,13 @@ def getHistory():
 
 @app.route('/api/owners',  methods=['GET', 'POST'])
 def getOwners():
+    if request.method == 'POST':
+      data = request.get_json()
+      queryText = """INSERT INTO "owners" ("name")
+                    VALUES (%s)"""
+      sqlInsert(queryText, (data['name'], ))
+      return 'Hi'
 
-    arrayOfOwners = sqlSelect('SELECT * FROM "owners"')
-    return jsonify(arrayOfOwners)
+    elif request.method == 'GET':
+      arrayOfOwners = sqlSelect('SELECT * FROM "owners"')
+      return jsonify(arrayOfOwners)
